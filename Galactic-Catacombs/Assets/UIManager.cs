@@ -7,6 +7,8 @@ public class UIManager : MonoBehaviour
 {
     public Text HPText;
     public Text BossHPText;
+    public Slider xpSlider;
+    public Text Paused;
 
     public void UpdateHP(float health) {
         HPText.text = "HP: " + health.ToString();
@@ -20,5 +22,18 @@ public class UIManager : MonoBehaviour
         BossHPText.gameObject.SetActive(true);
     }
 
+    public void ShowPauseMenu() {
+        Paused.gameObject.SetActive(true);
+    }
+
+    public void HidePauseMenu() {
+        Paused.gameObject.SetActive(false);
+    }
+
+
+    public void UpdateExperienceBar(float currentXp, float xpNeededForLevelUp) {
+        xpSlider.maxValue = xpNeededForLevelUp;
+        xpSlider.value = currentXp;
+    }
     
 }

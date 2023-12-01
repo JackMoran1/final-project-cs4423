@@ -7,6 +7,7 @@ public class HomingManager : MonoBehaviour
 {
     public Transform target;
     public float speed = 5f;
+    public float damage = 1f;
     
     void Update()
     {
@@ -17,6 +18,10 @@ public class HomingManager : MonoBehaviour
         }
     }
 
+    void Start() {
+        damage = damage * DifficultyManager.DamageFactor;
+    }
+
     public void SetTarget(Transform newTarget)
     {
         target = newTarget;
@@ -24,8 +29,8 @@ public class HomingManager : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.CompareTag("Player")) {
-                PlayerInput player = collision.gameObject.GetComponent<PlayerInput>();
-                player.damageTaken(1f);
+                Player player = collision.gameObject.GetComponent<Player>();
+                player.subtractHealth(damage);
                 Destroy(gameObject);
         }
         if(collision.gameObject.CompareTag("Laser")) {

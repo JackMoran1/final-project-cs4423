@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-public float health = 100f;
+    public float health = 100f;
     public float moveSpeed = 1f; 
+    private bool isDead = false;
+    public float damageDone = 1f;
 
+    public GameObject xpDropPrefab;
     private Transform playerTransform;  
     private WaveManager waveManager;
     
@@ -16,6 +19,9 @@ public float health = 100f;
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
         waveManager = FindObjectOfType<WaveManager>();
+        health = health * DifficultyManager.HealthFactor;
+        damageDone = damageDone * DifficultyManager.DamageFactor;
+
     }
 
     private void Update()
@@ -34,24 +40,31 @@ public float health = 100f;
         }
     }
 
-    public void TakeDamage(float damage)
-    {
-        health -= damage;
+   
 
-        if (health <= 0)
-        {
-            waveManager.EnemyDied();
-            Destroy(gameObject);
-        }
+public void TakeDamage(float damage)
+{
+    if (isDead) return;
+
+    health -= damage;
+    if (health <= 0)
+    {
+        isDead = true;
+        Instantiate(xpDropPrefab, transform.position, Quaternion.identity);
+        waveManager.EnemyDied();
+        Destroy(gameObject);
     }
+}
+
 
 
     void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.CompareTag("Player")) {
-                PlayerInput player = collision.gameObject.GetComponent<PlayerInput>();
-                player.damageTaken(1f);
+                Player player = collision.gameObject.GetComponent<Player>();
+                player.subtractHealth(damageDone);
             }
     }
+
 
             
 }

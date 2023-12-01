@@ -11,7 +11,9 @@ public class AdvancedEnemyManager : MonoBehaviour
     private Transform playerTransform; 
     private WaveManager waveManager;
     public GameObject enemyProjectilePrefab;
+    public GameObject xpDropPrefab;
     private bool isWaiting = false;
+    public float damageDone = 1f;
 
     
 
@@ -19,6 +21,8 @@ public class AdvancedEnemyManager : MonoBehaviour
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         waveManager = FindObjectOfType<WaveManager>();
+        health = health * DifficultyManager.HealthFactor;
+        damageDone = damageDone * DifficultyManager.DamageFactor;
     }
 
     private void Update()
@@ -36,7 +40,7 @@ public class AdvancedEnemyManager : MonoBehaviour
         isWaiting = true;
         moveSpeed = 0f;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         GameObject projectile = Instantiate(enemyProjectilePrefab, transform.position, Quaternion.identity);
         HomingManager homingManager = projectile.GetComponent<HomingManager>();
@@ -65,6 +69,7 @@ public class AdvancedEnemyManager : MonoBehaviour
 
         if (health <= 0)
         {
+            Instantiate(xpDropPrefab, transform.position, Quaternion.identity);
             waveManager.EnemyDied();
             Destroy(gameObject);
         }
@@ -73,8 +78,8 @@ public class AdvancedEnemyManager : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.CompareTag("Player")) {
-                PlayerInput player = collision.gameObject.GetComponent<PlayerInput>();
-                player.damageTaken(1f);
+                Player player = collision.gameObject.GetComponent<Player>();
+                player.subtractHealth(damageDone);
             }
     }
 

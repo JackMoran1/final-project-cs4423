@@ -14,6 +14,7 @@ public class BossManager : MonoBehaviour
     private Transform playerTransform;
     private bool specialActive = false;
     private UIManager uiManager;
+    public float damageDone = 10f;
 
     private void Start()
     {
@@ -22,6 +23,8 @@ public class BossManager : MonoBehaviour
         StartCoroutine(SpecialAttack());
         uiManager = FindObjectOfType<UIManager>();
         uiManager.ShowBossHP();
+        health = health * DifficultyManager.HealthFactor;
+        damageDone = damageDone * DifficultyManager.DamageFactor;
     }
 
     private void Update()
@@ -88,8 +91,8 @@ public class BossManager : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.CompareTag("Player")) {
-            PlayerInput player = collision.gameObject.GetComponent<PlayerInput>();
-            player.damageTaken(10f);
+            Player player = collision.gameObject.GetComponent<Player>();
+            player.subtractHealth(damageDone);
         }
 
     }

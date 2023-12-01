@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: 5123208430502272474}
   - component: {fileID: 7421829821930313435}
   - component: {fileID: 275427907342246900}
+  - component: {fileID: 7799545037892519155}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,6 +147,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faab5942314d1da449c18556866b7ea1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cooldown: 0.5
+  shotTime: 0
+  health: 100
+  uiManager: {fileID: 0}
 --- !u!114 &5123208430502272474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,4 +203,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a97715a6bed7e4382e2e6a63e92756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 826275609787809945, guid: 6c257e28078781140b48750a6d3b4a97, type: 3}
+  laserSpeed: 20
+  LaserSpawn: {fileID: 0}
+--- !u!114 &7799545037892519155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8648509655049313134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86b17b4c16d08d143ba6a8615f263732, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 1
+  currentXP: 0
+  xpToNextLevel: 100

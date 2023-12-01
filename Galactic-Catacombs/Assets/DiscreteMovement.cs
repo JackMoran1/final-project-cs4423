@@ -19,4 +19,8 @@ public class DiscreteMovement : MonoBehaviour
     public void MoveRB(Vector3 vel) {
         rb.velocity = vel;
     }
+
+    public void increaseSpeed(float updatedSpeed) {
+        speed = (speed * updatedSpeed) + speed;
+    }
 }

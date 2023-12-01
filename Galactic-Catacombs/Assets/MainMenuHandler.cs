@@ -6,10 +6,14 @@ using UnityEngine.SceneManagement;
 public class MainMenuHandler : MonoBehaviour
 {
     public void PlayGame() {
-        SceneManager.LoadScene("Gameplay");
+        SceneManager.LoadScene("Difficulty");
     }
 
     public void QuitGame() {
         Application.Quit();
+    }
+
+    public void LoadOptions() {
+        SceneManager.LoadScene("Options");
     }
 }

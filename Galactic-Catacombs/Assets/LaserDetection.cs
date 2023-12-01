@@ -15,39 +15,58 @@ public class LaserDetection : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other) {
+
+        bool isActive = true;
         if(other.gameObject.CompareTag("Boundary")) {
-            Destroy(gameObject);
         }
 
 
         if(other.gameObject.CompareTag("Enemy")) {
+            isActive = false;
             EnemyManager enemy = other.gameObject.GetComponent<EnemyManager>();
             enemy.TakeDamage(damage);
-            Destroy(gameObject);
+            ReturnToPool();
+            
         }
 
         if(other.gameObject.CompareTag("AdvancedEnemy")) {
+            isActive = false;
             AdvancedEnemyManager AdvancedEnemy = other.gameObject.GetComponent<AdvancedEnemyManager>();
             AdvancedEnemy.TakeDamage(damage);
-            Destroy(gameObject);
+            ReturnToPool();
+            
         }
 
         if(other.gameObject.CompareTag("EnemyProjectile")) {
-            Destroy(gameObject);
+            isActive = false;
+            ReturnToPool();
+            
         }
 
         if(other.gameObject.CompareTag("Boss")) {
+            isActive = false;
             BossManager boss = other.gameObject.GetComponent<BossManager>();
             boss.TakeDamage(5f);
-            Destroy(gameObject);
+            ReturnToPool();
+            
         }
 
+        if(isActive) {StartCoroutine(ReturnToPoolAfterDelay(2f));}
 
-
-    
+        
 
     }
 
+
+    IEnumerator ReturnToPoolAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ProjectilePoolManager.Instance.ReturnProjectile(gameObject);
+    }
+
+    void ReturnToPool() {
+        ProjectilePoolManager.Instance.ReturnProjectile(gameObject);
+    }
 
 
 
